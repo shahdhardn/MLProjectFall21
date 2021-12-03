@@ -2,7 +2,7 @@ from data import get_mean_and_std, classHistograms, show_transformed_images, CXR
 from baseline import baselineDENSNET, baselineRESNET
 from analysis import eval_best_model, conf_mtrx, evaluate_metrics, ROC_plot_AUC_score, plot_learning_curve
 from preprocessing_train_chexpert import preprocess_train
-from transfer import transferImageNetRESNET, transferImageNetDENSNET, transferCheXpertDENSNET
+from transfer import transferImageNetRESNET, transferImageNetDENSNET, transferCheXpertDENSENET, transferCheXpertRESNET
 
 from torchvision.datasets import ImageFolder
 from sklearn.model_selection import train_test_split
@@ -144,13 +144,19 @@ def main(args):
 
     elif args.technique == 'transfer CHEXPERT RESNET':
         preprocess_train(device, 'RESNET')
-        num_classes, loss_func_test, train_loss, test_loss = transferCheXpertDENSNET(device, train_loader, test_loader,
+        num_classes, loss_func_test, train_loss, test_loss = transferCheXpertRESNET(device, train_loader, test_loader,
                                                                             trainData, args.epochs)
         test_labels, pred_cls, pred_proba, _, _ = eval_best_model('resnet18',
                                                                   'checkpoint/resnet18_prechexpert_ftcxr.pth',
                                                                   num_classes, loss_func_test, device, band='L')
     elif args.technique == 'transfer CHEXPERT DENSENET':
         preprocess_train(device, 'DENSENET')
+        num_classes, loss_func_test, train_loss, test_loss = transferCheXpertDENSENET(device, train_loader, test_loader,
+                                                                            trainData, args.epochs)
+
+        test_labels, pred_cls, pred_proba, _, _ = eval_best_model('densenet121',
+                                                                  'checkpoint/densenet121_prechexpert_ftcxr.pth',
+                                                                  num_classes, loss_func_test, device, band='L')
 
 
 
