@@ -119,27 +119,27 @@ def main(args):
         num_classes, loss_func_test, train_loss, test_loss=baselineDENSNET(device, train_loader, test_loader, trainData, args.epochs)
         # test_labels, pred_cls, pred_proba, t_loss, test_acc =eval_best_model (model, model_path,n_classes ,loss_func_test,device)
         test_labels, pred_cls, pred_proba, _, _ = eval_best_model('densenet121', 'checkpoint/densenet121_baseline.pth',
-                                                                  num_classes, loss_func_test, device)
+                                                                  num_classes, loss_func_test, test_loader, device)
 
     elif args.technique == 'baseline RESNET':
         num_classes, loss_func_test, train_loss, test_loss=baselineRESNET(device, train_loader, test_loader, trainData, args.epochs)
         # test_labels, pred_cls, pred_proba, t_loss, test_acc =eval_best_model (model, model_path,n_classes ,loss_func_test,device)
         test_labels, pred_cls, pred_proba, _, _ = eval_best_model('resnet18', 'checkpoint/resnet18_baseline.pth',
-                                                                  num_classes, loss_func_test, device)
+                                                                  num_classes, loss_func_test, test_loader, device)
 
     elif args.technique == 'transfer IMAGENET RESNET':
         num_classes, loss_func_test, train_loss, test_loss = transferImageNetRESNET(device, train_loader, test_loader,
                                                                             trainData, args.epochs)
         test_labels, pred_cls, pred_proba, _, _ = eval_best_model('resnet18',
                                                                   'checkpoint/resnet18_preimagenet_ftcxr.pth',
-                                                                  num_classes, loss_func_test, device)
+                                                                  num_classes, loss_func_test, test_loader, device)
 
     elif args.technique == 'transfer IMAGENET DENSENET':
         num_classes, loss_func_test, train_loss, test_loss = transferImageNetDENSNET(device, train_loader, test_loader,
                                                                             trainData, args.epochs)
         test_labels, pred_cls, pred_proba, _, _ = eval_best_model('densenet121',
                                                                   'checkpoint/densenet121_preimagenet_ftcxr.pth',
-                                                                  num_classes, loss_func_test, device)
+                                                                  num_classes, loss_func_test, test_loader, device)
 
     elif args.technique == 'transfer CHEXPERT RESNET':
         preprocess_train(device, 'RESNET')
@@ -147,7 +147,7 @@ def main(args):
                                                                             trainData, args.epochs)
         test_labels, pred_cls, pred_proba, _, _ = eval_best_model('resnet18',
                                                                   'checkpoint/resnet18_prechexpert_ftcxr.pth',
-                                                                  num_classes, loss_func_test, device, band='L')
+                                                                  num_classes, loss_func_test, test_loader, device, band='L')
     elif args.technique == 'transfer CHEXPERT DENSENET':
         preprocess_train(device, 'DENSENET')
         num_classes, loss_func_test, train_loss, test_loss = transferCheXpertDENSENET(device, train_loader, test_loader,
@@ -155,7 +155,7 @@ def main(args):
 
         test_labels, pred_cls, pred_proba, _, _ = eval_best_model('densenet121',
                                                                   'checkpoint/densenet121_prechexpert_ftcxr.pth',
-                                                                  num_classes, loss_func_test, device, band='L')
+                                                                  num_classes, loss_func_test, test_loader, device, band='L')
 
 
 
