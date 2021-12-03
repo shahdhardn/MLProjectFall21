@@ -7,11 +7,12 @@ Created on Sun Nov  7 14:11:39 2021
 @author: reem
 """
 
-python scripts/train_mpii.py \
-    --arch=hg2 \
-    --image-path=/apps/local/shared/cv701/datasets/mpii_human_pose_v1/images/ \
-    --checkpoint=checkpoint/hg2 \
-    --epochs=30 \
+python scripts/main.py \
+    --technique=hg2 \
+    --RGBpath= 'ML Pro Dataset RGB' \
+    --GREYpath= 'ML Pro Dataset grayscale' \
+    --batchsize=16 \
+    --epochs=35 \
     --train-batch=24 \
     --workers=24 \
     --test-batch=24 \
