@@ -8,13 +8,10 @@ Created on Sun Nov  7 14:11:39 2021
 """
 
 python scripts/main.py \
-    --technique=hg2 \
+    --technique='baseline RESNET' \
     --RGBpath= 'ML Pro Dataset RGB' \
     --GREYpath= 'ML Pro Dataset grayscale' \
     --batchsize=16 \
-    --epochs=35 \
-    --train-batch=24 \
-    --workers=24 \
-    --test-batch=24 \
-    --lr=1e-3 \
-    --schedule 15 17
+    --epochs=25 \
+    --histogram='false' \
+    --showtransformed = 'false'

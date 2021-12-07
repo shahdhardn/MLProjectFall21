@@ -71,7 +71,9 @@ def transferCheXpertDENSENET(device, train_loader, test_loader, trainData, epoch
     loss_func_train = nn.CrossEntropyLoss(weight=calculate_cls_weight(trainData))
     loss_func_test = nn.CrossEntropyLoss()
 
-    optimizer = optim.AdamW(best_model.parameters(), lr=0.001)
+    optimizer = optim.AdamW(best_model.parameters(), lr=0.001, weight_decay=0.1)
+    best_model.features.conv0 = nn.Conv2d(3, num_init_features, kernel_size=7, stride=2,
+                                          padding=3, bias=False)
 
     epochs = epochs  ## args.epochs
     modelname = 'densenet121_prechexpert_ftcxr'
@@ -88,8 +90,9 @@ def transferCheXpertRESNET(device, train_loader, test_loader, trainData, epochs)
     num_classes = 6
     best_model.fc = nn.Linear(input_ftrs, num_classes)
 
-    ckpt = torch.load('checkpoint/resnet18_prechexpert.pth')
+    ckpt = torch.load('/home/eman.alsuradi/Desktop/ml701 project/checkpoint/resnet18_prechexpert_updated.pth')
     best_model.load_state_dict(ckpt)
+    best_model.conv1 = nn.Conv2d(3, 64, kernel_size=7, stride=2, padding=3, bias=False)
 
     best_model.fc.in_features
     # number of output classes
@@ -105,7 +108,7 @@ def transferCheXpertRESNET(device, train_loader, test_loader, trainData, epochs)
 
     loss_func_train = nn.CrossEntropyLoss(weight=calculate_cls_weight(trainData))
 
-    optimizer = optim.AdamW(best_model.parameters(), lr=0.001)
+    optimizer = optim.AdamW(best_model.parameters(), lr=0.001, weight_decay=0.1)
 
     modelname = 'resnet18_prechexpert_ftcxr'
     epochs = epochs  ## args.epochs
